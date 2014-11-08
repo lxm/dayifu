@@ -1,34 +1,32 @@
 package com.qihoo.health;
 
+import java.util.List;
+
+import com.qihoo.health.model.Message;
+import com.qihoo.health.model.User;
+
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 
 public class MainActivity extends Activity {
 
-	private ListView mThreadList;
-	private EditText mInputText;
-	private Button mButtonNegative;
-	private Button mButtonPositive;
-	private LinearLayout mButtonLine;
-	private LinearLayout mMenuContainer;
+	private User mUser;
+	private List<Message> mMessages;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		mUser = AppHealth.getUser();
+		if (mUser == null) {
+			onRegister();
+		}
+		
 		setContentView(R.layout.activity_main);
-		findViews();
 	}
 
-	private void findViews() {
-		mThreadList = (ListView) findViewById(R.id.threadList);
-		mInputText = (EditText) findViewById(R.id.inputText);
-		mButtonNegative = (Button) findViewById(R.id.buttonNegative);
-		mButtonPositive = (Button) findViewById(R.id.buttonPositive);
-		mButtonLine = (LinearLayout) findViewById(R.id.buttonLine);
-		mMenuContainer = (LinearLayout) findViewById(R.id.menuContainer);
+	private void onRegister() {
+		MessagesActivity.actionMessages(this);
+		finish();
 	}
 }
