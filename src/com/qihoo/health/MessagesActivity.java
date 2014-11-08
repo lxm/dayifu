@@ -6,11 +6,13 @@ import java.util.List;
 import com.qihoo.health.db.DBManager;
 import com.qihoo.health.model.Message;
 import com.qihoo.health.model.User;
+import com.qihoo.health.user.Login;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +49,8 @@ public class MessagesActivity extends Activity {
 
 	private boolean mRegistering = false;
 	private int mRegisterStep = 0;
+
+	private Handler mHandler;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -117,15 +121,16 @@ public class MessagesActivity extends Activity {
 		case 3:
 			// 填写验证码
 			message = new Message(false, true, mUser.name
-					+ getResources().getString(R.string.message_require_verify_code),
-					false, null, this);
+					+ getResources().getString(
+							R.string.message_require_verify_code), false, null,
+					this);
 			appendMessage(message, false, false);
 			showBottomMenu();
 			break;
 		case 4:
 			// 注册完成
-			message = new Message(false, true, getResources().getString(R.string.message_register_completed),
-					false, null, this);
+			message = new Message(false, true, getResources().getString(
+					R.string.message_register_completed), false, null, this);
 			mMessages.clear();
 			mRegistering = false;
 			appendMessage(message, true, true);
@@ -137,6 +142,10 @@ public class MessagesActivity extends Activity {
 		mAdapter = new MessagesAdapter();
 		mThreadList.setAdapter(mAdapter);
 		mThreadList.setSelection(mMessages.size());
+	}
+
+	class MessageHandler extends Handler {
+
 	}
 
 	private class ViewHolder {
@@ -298,10 +307,10 @@ public class MessagesActivity extends Activity {
 										R.string.message_phone_inputed)
 										+ mUser.phoneNum, false, null,
 								MessagesActivity.this);
-						mInputText.setText("");
 						appendMessage(message, false, true);
-//						mMenuContainer.setVisibility(View.GONE);
-//						mInputContainer.setVisibility(View.GONE);
+						mInputText.setText("");
+						// mMenuContainer.setVisibility(View.GONE);
+						// mInputContainer.setVisibility(View.GONE);
 					}
 				});
 
@@ -319,14 +328,14 @@ public class MessagesActivity extends Activity {
 
 					@Override
 					public void onClick(View v) {
-//						mUser.name = "9527";
-//						Message message = new Message(true, true,
-//								R.string.message_default_name, false, null,
-//								MessagesActivity.this);
-//						mInputText.setText("");
-//						// mMenuContainer.setVisibility(View.GONE);
-//						// mInputContainer.setVisibility(View.GONE);
-//						appendMessage(message, false, true);
+						// mUser.name = "9527";
+						// Message message = new Message(true, true,
+						// R.string.message_default_name, false, null,
+						// MessagesActivity.this);
+						// mInputText.setText("");
+						// // mMenuContainer.setVisibility(View.GONE);
+						// // mInputContainer.setVisibility(View.GONE);
+						// appendMessage(message, false, true);
 						mInputText.setText("");
 					}
 				});
@@ -340,8 +349,8 @@ public class MessagesActivity extends Activity {
 						Message message = new Message(true, true,
 								getResources().getString(
 										R.string.message_verify_code_inputed)
-										+ mInputText.getText().toString(), false, null,
-								MessagesActivity.this);
+										+ mInputText.getText().toString(),
+								false, null, MessagesActivity.this);
 						appendMessage(message, false, true);
 						mMenuContainer.setVisibility(View.GONE);
 						mInputContainer.setVisibility(View.GONE);
