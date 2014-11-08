@@ -9,5 +9,25 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="menu_hint">向上滑动查看更多选项</string>
     <string name="app_title_welcome">撸大夫-您的贴身医师</string>
+    <string name="title_activity_messages">MessagesActivity</string>
+    <string name="message_welcome">你好，欢迎使用鲁大夫</string>
+    
+    <string name="message_require_name">我是鲁大夫，他们叫我Mr. Lu。你叫什么名字？</string>
+    <string name="hint_input_name">填写你的名称,或使用名字 9527</string>
+    <string name="button_any_name">随便</string>
+    <string name="button_name_ok">确定，就Ta了</string>
+    <string name="message_default_name">就叫我 9527 吧！</string>
+    <string name="message_custom_name">请叫我 </string>
+    <string name="message_name_inputed">好的，</string>
+    <string name="message_require_phone">下面，请填写你的手机号\n以后登录要用的哦~</string>
+    <string name="hint_input_phone">手机号</string>
+    <string name="button_phone_ok">确定，获取验证码</string>
+    <string name="message_phone_inputed">我的手机是 </string>
+    <string name="message_require_verify_code">，请查看你的短信，填写验证码~</string>
+    <string name="hint_input_verify_code">验证码</string>
+    <string name="button_verify_code_ok">哦了！</string>
+    <string name="button_verify_code_retry">重试</string>
+    <string name="message_verify_code_inputed">填好了，是</string>
+    <string name="message_register_completed">太好了，注册完成~</string>
 
 </resources>
