@@ -1,6 +1,7 @@
 package com.qihoo.health.db;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.qihoo.health.item.Message;
@@ -63,6 +64,10 @@ public class DBManager {
 		}
 	}
 
+	/**
+	 * 获取消息，取最新的20条
+	 * @return
+	 */
 	public synchronized List<Message> loadMessages() {
 		List<Message> messages = new ArrayList<Message>();
 		SQLiteDatabase db = getConnection();
@@ -71,6 +76,12 @@ public class DBManager {
 			String sql = "select * from " + DBHelper.TABLE_NAME + " order by "
 					+ DBHelper.MessagesColumns.ID + " desc limit 20";
 			cursor = db.rawQuery(sql, null);
+			while (cursor.moveToNext()) {
+				Message message = new Message(cursor);
+				messages.add(message);
+			}
+			Collections.reverse(messages);	// 取出的数据是反的，需要反序调整
+			return messages;
 		} catch (Exception e) {
 			Log.e("test", "读取信息失败：" + e);
 		} finally {
