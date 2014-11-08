@@ -3,11 +3,6 @@ package com.qihoo.health;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.qihoo.health.db.DBManager;
-import com.qihoo.health.model.Message;
-import com.qihoo.health.model.User;
-import com.qihoo.health.user.Login;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +20,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.qihoo.health.controller.HealthController;
+import com.qihoo.health.controller.HealthListener;
+import com.qihoo.health.db.DBManager;
+import com.qihoo.health.model.Message;
+import com.qihoo.health.model.User;
 
 public class MessagesActivity extends Activity {
 
@@ -50,12 +51,15 @@ public class MessagesActivity extends Activity {
 	private boolean mRegistering = false;
 	private int mRegisterStep = 0;
 
-	private Handler mHandler;
+	private HealthController mController;
+	private MessageListener mListener = new MessageListener();
+	private MessageHandler mHandler = new MessageHandler();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_messages);
+		mController = HealthController.getInstance(getApplication());
 		findViews();
 		mUser = AppHealth.getUser();
 		mMessages = AppHealth.getMessages();
@@ -120,20 +124,15 @@ public class MessagesActivity extends Activity {
 			break;
 		case 3:
 			// 填写验证码
-			message = new Message(false, true, mUser.name
-					+ getResources().getString(
-							R.string.message_require_verify_code), false, null,
-					this);
-			appendMessage(message, false, false);
 			showBottomMenu();
 			break;
 		case 4:
 			// 注册完成
-			message = new Message(false, true, getResources().getString(
-					R.string.message_register_completed), false, null, this);
-			mMessages.clear();
-			mRegistering = false;
-			appendMessage(message, true, true);
+			// message = new Message(false, true, getResources().getString(
+			// R.string.message_register_completed), false, null, this);
+			// mMessages.clear();
+			// mRegistering = false;
+			// appendMessage(message, true, true);
 			break;
 		}
 	}
@@ -142,10 +141,6 @@ public class MessagesActivity extends Activity {
 		mAdapter = new MessagesAdapter();
 		mThreadList.setAdapter(mAdapter);
 		mThreadList.setSelection(mMessages.size());
-	}
-
-	class MessageHandler extends Handler {
-
 	}
 
 	private class ViewHolder {
@@ -230,7 +225,8 @@ public class MessagesActivity extends Activity {
 		mMessages.add(message);
 		mAdapter.notifyDataSetChanged();
 		if (needSave) {
-			DBManager.getInstance(this).saveMessage(message);
+//			DBManager.getInstance(this).saveMessage(message);
+			mController.saveMessage(message);
 		}
 		mThreadList.setSelection(mMessages.size());
 		if (mRegistering && stepMoved) {
@@ -302,12 +298,13 @@ public class MessagesActivity extends Activity {
 								|| mInputText.getText().toString().equals(""))
 							return;
 						mUser.phoneNum = mInputText.getText().toString();
+						mController.registerPhone(mUser.phoneNum, mListener);
 						Message message = new Message(true, true,
 								getResources().getString(
 										R.string.message_phone_inputed)
 										+ mUser.phoneNum, false, null,
 								MessagesActivity.this);
-						appendMessage(message, false, true);
+						appendMessage(message, false, false);
 						mInputText.setText("");
 						// mMenuContainer.setVisibility(View.GONE);
 						// mInputContainer.setVisibility(View.GONE);
@@ -346,20 +343,107 @@ public class MessagesActivity extends Activity {
 						if (mInputText.getText() == null
 								|| mInputText.getText().toString().equals(""))
 							return;
+						mController.checkCode(mUser.phoneNum, mInputText.getText().toString(), mListener);
 						Message message = new Message(true, true,
 								getResources().getString(
 										R.string.message_verify_code_inputed)
 										+ mInputText.getText().toString(),
 								false, null, MessagesActivity.this);
-						appendMessage(message, false, true);
-						mMenuContainer.setVisibility(View.GONE);
-						mInputContainer.setVisibility(View.GONE);
+						appendMessage(message, false, false);
+//						mMenuContainer.setVisibility(View.GONE);
+//						mInputContainer.setVisibility(View.GONE);
 						mInputText.setText("");
 					}
 				});
 
 				break;
 			}
+		}
+	}
+
+	class MessageListener extends HealthListener {
+
+		@Override
+		public void registerFinished() {
+			mHandler.registerFinished();
+		}
+
+		@Override
+		public void registerFailed() {
+			mHandler.registerFailed();
+		}
+
+		@Override
+		public void checkCodeFinished() {
+			mHandler.checkCodeFinished();
+		}
+
+		@Override
+		public void checkCodeFailed() {
+			mHandler.checkCodeFailed();
+		}
+	}
+
+	class MessageHandler extends Handler {
+
+		public void registerFinished() {
+			post(new Runnable() {
+
+				@Override
+				public void run() {
+					Message message = new Message(false, true, mUser.name
+							+ getResources().getString(
+									R.string.message_require_verify_code),
+							false, null, MessagesActivity.this);
+					appendMessage(message, false, true);
+				}
+			});
+		}
+
+		public void registerFailed() {
+			post(new Runnable() {
+
+				@Override
+				public void run() {
+					Message message = new Message(false, true, "手机号注册失败了，请重试",
+							false, null, MessagesActivity.this);
+					appendMessage(message, false, false);
+				}
+			});
+		}
+
+		public void checkCodeFailed() {
+			post(new Runnable() {
+
+				@Override
+				public void run() {
+					// 验证错误
+					Message message = new Message(false, true, "验证失败，请重试",
+							false, null, MessagesActivity.this);
+					appendMessage(message, false, false);
+				}
+
+			});
+		}
+
+		public void checkCodeFinished() {
+			post(new Runnable() {
+
+				@Override
+				public void run() {
+					// 注册完成
+					Message message = new Message(false, true, getResources()
+							.getString(R.string.message_register_completed),
+							false, null, MessagesActivity.this);
+					mMessages.clear();
+					mRegistering = false;
+					appendMessage(message, true, true);
+					mInputContainer.setVisibility(View.GONE);
+					mButtonsContainer.setVisibility(View.GONE);
+					mController.saveUser(mUser);
+				}
+
+			});
 		}
 	}
 }
