@@ -13,9 +13,19 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
+import android.util.Log;
+
 public class Login {
-	String Url = "http://lushifu.luxingmin.com/index/";
+	String Url = "http://lushifu.changxiaoyuan.com/index/";
 	CookieStore cookie = null;
+	
+	private static Login inst = null;
+	
+	public static Login getInstance() {
+		if (inst == null)
+			inst = new Login();
+		return inst;
+	}
 
 	public boolean GetCode(String PhoneNum) {
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -24,8 +34,8 @@ public class Login {
 		try {
 			ret = this.HttpPost(this.Url + "getcode", params);
 		} catch (Exception e) {
-
 			e.printStackTrace();
+			Log.v("test", "注册手机失败：" + e);
 		}
 		if (ret != null && ret.contains("OK")) {
 			return true;
@@ -34,15 +44,18 @@ public class Login {
 		}
 	}
 
-	public boolean CheckCode(String Code) {
+	public boolean CheckCode(String Code, String phoneNum) {
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("code", Code));
+		params.add(new BasicNameValuePair("phone", phoneNum));
 		String ret = null;
 		try {
 			ret = this.HttpPost(this.Url + "checkcode", params);
 		} catch (Exception e) {
+			Log.v("test", "验证码验证失败：" + e);
 			e.printStackTrace();
 		}
+		Log.v("test", ret);
 		if (ret != null && ret.contains("OK")) {
 			return true;
 		} else {
