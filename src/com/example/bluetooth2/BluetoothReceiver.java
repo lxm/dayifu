@@ -3,6 +3,7 @@ package com.example.bluetooth2;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 public class BluetoothReceiver extends BroadcastReceiver {
 
@@ -12,11 +13,8 @@ public class BluetoothReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		final String action = intent.getAction();
-		// System.out.println("ccccc");
+		//final BroadCast broadcastsender;
 		if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
-			// displayData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
-			// System.out.println("BroadcastReceiver onData:"
-			// + intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
 			String res_num = intent
 					.getStringExtra(BluetoothLeService.EXTRA_DATA);
 			String res_num_str[] = res_num.split(",");
@@ -34,12 +32,7 @@ public class BluetoothReceiver extends BroadcastReceiver {
 			}
 			Movement moveJudge = new Movement();
 			double[] moveresult = moveJudge.GetType(res_num_doub);
-			// System.out.println("1: " + moveresult[0] + " 2: "
-			// + moveresult[1] + " 3: " + moveresult[2]);
-
 			isMove[count] = getMax(moveresult);
-			System.out.println("count: " + count + ". 谁最大： " + isMove[count]);
-
 			count++;
 			if (count >= 30) {
 				int num1 = 0;
@@ -54,20 +47,17 @@ public class BluetoothReceiver extends BroadcastReceiver {
 						num3++;
 					}
 				}
-
 				if (num1 > num2 && num1 > num3) {
-					System.out.println("num1最多");
+					Log.v("test","num1");
 				} else if (num2 > num3) {
-					System.out.println("num2最多");
+					Log.v("test","num2");
 				} else {
-					System.out.println("num3最多");
+					Log.v("test","num3");
 				}
-
 				count = 0;
 			}
 		}
 	}
-
 	private int getMax(double[] doub) {
 		double max = 0;
 		int num = 0;
