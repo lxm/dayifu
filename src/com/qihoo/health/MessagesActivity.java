@@ -437,10 +437,13 @@ public class MessagesActivity extends Activity {
 							false, null, MessagesActivity.this);
 					mMessages.clear();
 					mRegistering = false;
+					AppHealth.setUser(mUser);
 					appendMessage(message, true, true);
 					mInputContainer.setVisibility(View.GONE);
 					mButtonsContainer.setVisibility(View.GONE);
 					mController.saveUser(mUser);
+					MainActivity.actionMain(MessagesActivity.this);
+					finish();
 				}
 
 			});

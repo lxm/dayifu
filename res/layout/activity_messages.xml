@@ -92,7 +92,8 @@
             android:layout_height="wrap_content"
             android:background="#69000000"
             android:orientation="horizontal"
-            android:padding="5dp" >
+            android:padding="5dp"
+            android:visibility="gone" >
 
             <Button
                 android:id="@+id/buttonNegative"

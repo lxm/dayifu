@@ -3,18 +3,19 @@ package com.qihoo.health;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
 
-public class ParentActivityActionBar extends Activity {
+public class ParentActivityActionBar extends FragmentActivity {
 	
-	private ActionBar mActionBar;
+	protected ActionBar mActionBar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_actionbar);
 		mActionBar = getActionBar();
-		mActionBar.setDisplayHomeAsUpEnabled(true);
+//		mActionBar.setDisplayHomeAsUpEnabled(true);
 		mActionBar.setDisplayShowHomeEnabled(false);
 	}
 
