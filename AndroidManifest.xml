@@ -47,6 +47,11 @@
             android:theme="@android:style/Theme.Holo.Light.NoActionBar"
             android:windowSoftInputMode="adjustResize|stateHidden" >
         </activity>
+                <receiver android:name="com.example.bluetooth2.BluetoothReceiver">
+            <intent-filter >
+                <action android:name="com.example.bluetooth.le.ACTION_DATA_AVAILABLE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
