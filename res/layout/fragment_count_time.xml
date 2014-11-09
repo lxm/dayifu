@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/dateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="今儿（11-09）"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/theme_blue" />
+
+    <TextView
+        android:id="@+id/proposeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="“充实的一天”啊，您该休息了"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/theme_blue" />
+
+    <LinearLayout
+        android:id="@+id/countChart"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp" >
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="20dp" >
+
+        <Button
+            android:id="@+id/countTime"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bg_btn_circle_selected"
+            android:text="时间"
+            android:textColor="@color/theme_blue" />
+
+        <Button
+            android:id="@+id/countDistance"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/bg_btn_circle_unselected"
+            android:text="距离"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+</LinearLayout>

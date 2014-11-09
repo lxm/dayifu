@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">PersonalHealthApp</string>
+    <string name="app_name">Lu大夫</string>
     <string name="title_everyday_activities">每日活动统计</string>
     <string name="title_activity_parent_activity_no_action_bar">ParentActivityNoActionBar</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Lu大夫</string>
     <string name="menu_hint">向上滑动查看更多选项</string>
     <string name="app_title_welcome">撸大夫-您的贴身医师</string>
     <string name="title_activity_messages">MessagesActivity</string>
@@ -29,5 +29,6 @@
     <string name="button_verify_code_retry">重试</string>
     <string name="message_verify_code_inputed">填好了，是</string>
     <string name="message_register_completed">太好了，注册完成~</string>
+    <string name="menu_messages">消息</string>
 
 </resources>

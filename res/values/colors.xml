@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="theme_blue">#179af0</color>
+    <color name="theme_green">#38df18</color>
+    <color name="theme_fuchsin_red">#f6388d</color>
+    <color name="theme_orange">#f0b017</color>
+
+</resources>
